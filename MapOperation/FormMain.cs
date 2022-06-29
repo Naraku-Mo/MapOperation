@@ -2852,7 +2852,7 @@ namespace MapOperation
         /// <param name="path">图像保存路径</param>
         ///  /// <param name="picWay">截图方法</param>
         public void ImageDatesetProduce(string sql, ISelectionSet pFeatSet, IFeatureLayer pTocFeatureLayer,
-           double x,double y, int pixel,string path,int picWay)
+           double x,double y, int pixel,string path,int picW,int  picH, int picWay)
         {
             IFeatureCursor pFeatCursor;
             ICursor pCursor;
@@ -2892,7 +2892,7 @@ namespace MapOperation
             IE.PutCoords(x - 20, y - 20, x + 20, y + 20);
             if(picWay==1)
             {
-                ExportView_test(mainMapControl.ActiveView, IE, 20, 500, 500, path);//外接矩形
+                ExportView_test(mainMapControl.ActiveView, IE, 20, picW, picH, path);//外接矩形
             }
             else
                 ExportView_test2(mainMapControl.ActiveView, path, IE, pixel);//按照真实的比例截图                     
@@ -4121,7 +4121,7 @@ namespace MapOperation
                     else
                         path = @"D:\test_data\fixtrain20\1\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";
                     //图像存储路径
-                    ImageDatesetProduce(sql, pFeatSet, pTocFeatureLayer, x, y, 1202, path,1);
+                    ImageDatesetProduce(sql, pFeatSet, pTocFeatureLayer, x, y, 1202, path,500,500,1);
                     //ClipProduce(1000000, unionFeature,sql);             //如果只需要集合部分的裁剪就采用这一函数
                     unionFeature = pFeatureCursor.NextFeature();
                 }
@@ -4202,7 +4202,7 @@ namespace MapOperation
                 {
                     // string path = @"D:\test_data\function_test\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";  //图像存储路径
                     string path = @"E:\Naraku\maskwork\data\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";  //图像存储路径
-                    ImageDatesetProduce(sql, pFeatSet, pTocFeatureLayer, x, y, 1202, path,0);
+                    ImageDatesetProduce(sql, pFeatSet, pTocFeatureLayer, x, y, 1202, path, 500, 500, 0);
                     //ClipProduce(1000000, unionFeature,sql);             //如果只需要集合部分的裁剪就采用这一函数
                     unionFeature = pFeatureCursor.NextFeature();
                 }
@@ -4305,7 +4305,7 @@ namespace MapOperation
                         {
                             // string path = @"D:\test_data\function_test\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";  //图像存储路径
                             string path = @"E:\Naraku\maskwork\data_code\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";  //图像存储路径
-                            ImageDatesetProduce(sql, pFeatSet, pTocFeatureLayer, x, y, 1202, path,0);
+                            ImageDatesetProduce(sql, pFeatSet, pTocFeatureLayer, x, y, 1202, path, 500, 500,2);
                             //ClipProduce(1000000, unionFeature,sql);             //如果只需要集合部分的裁剪就采用这一函数
                             pFeature = enumFeature.Next();
                         }
@@ -4327,8 +4327,8 @@ namespace MapOperation
                 mainMapControl.ActiveView.Refresh();
 
                 progress.Close();
-                ScreenShotForm shot = new ScreenShotForm();
-                shot.Show();//以无模式窗体方式调用
+                //ScreenShotForm shot = new ScreenShotForm();
+                //shot.Show();//以无模式窗体方式调用
 
 
             }
@@ -4403,7 +4403,7 @@ namespace MapOperation
                         {
                             // string path = @"D:\test_data\function_test\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";  //图像存储路径
                             string path = @"E:\Naraku\maskwork\data_code\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";  //图像存储路径
-                            ImageDatesetProduce(sql, pFeatSet, pTocFeatureLayer, x, y, 1202, path,1);
+                            ImageDatesetProduce(sql, pFeatSet, pTocFeatureLayer, x, y, 1202, path, 500, 500, 1);
                             //ClipProduce(1000000, unionFeature,sql);             //如果只需要集合部分的裁剪就采用这一函数
                             pFeature = enumFeature.Next();
                         }
@@ -4425,8 +4425,8 @@ namespace MapOperation
                 mainMapControl.ActiveView.Refresh();
 
                 progress.Close();
-                ScreenShotForm shot = new ScreenShotForm();
-                shot.Show();//以无模式窗体方式调用
+                //ScreenShotForm shot = new ScreenShotForm();
+                //shot.Show();//以无模式窗体方式调用
 
 
             }
@@ -4445,49 +4445,120 @@ namespace MapOperation
         /// <summary>打开截图选参窗口自选要素截图
         /// 
         /// </summary>
-        /// <param name="mode">截图方式</param>
-
-        private void 要素截图ToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <param name="cliprate">膨胀收缩的比率</param>
+        /// <param name="picH">截图高</param>
+        /// <param name="picW">截图宽</param>
+        ///<param name="savepath">截图存储路径</param>
+        /// <param name="shotMethod">截图方式</param>
+        public void Para_Screenshot(string savepath, int cliprate , int picW,int picH ,int shotMethod)
         {
-            //int mode;            
-            #region 调用类库资源
-            //清除选择
-            IActiveView pActiveView = mainMapControl.ActiveView;
-            pActiveView.FocusMap.ClearSelection();
-            pActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeoSelection, null, pActiveView.Extent);
-            //选择要素
-            mainMapControl.CurrentTool = null;
-            ControlsSelectFeaturesTool pTool = new ControlsSelectFeaturesToolClass();
-            pTool.OnCreate(mainMapControl.Object);
-            mainMapControl.CurrentTool = pTool as ITool;
             //缩放至选择
             int nSlection = mainMapControl.Map.SelectionCount;
+            ILayer pLayer = null;
+            pLayer = mainMapControl.get_Layer(0);
+            pTocFeatureLayer = pLayer as IFeatureLayer;
+            IFeatureLayerDefinition featureLayerDefinition = pTocFeatureLayer as IFeatureLayerDefinition;
+            IFeatureLayer SelectLayer = null;
             if (nSlection == 0)
             {
-                MessageBox.Show("请先选择要素！", "提示");
+                MessageBox.Show("请先进行要素选择！", "提示");
             }
             else
             {
                 ISelection selection = mainMapControl.Map.FeatureSelection;
-                IEnumFeature enumFeature = (IEnumFeature)selection;
+                // IEnumFeature enumFeature = (IEnumFeature)selection;
+                IEnumFeatureSetup enumFeatureSetup = selection as IEnumFeatureSetup;
+                enumFeatureSetup.AllFields = true;
+                IEnumFeature enumFeature = enumFeatureSetup as IEnumFeature;
                 enumFeature.Reset();
                 IEnvelope pEnvelope = new EnvelopeClass();
                 IFeature pFeature = enumFeature.Next();
+                if (nSlection > 0)
+                {
+                    SelectLayer = featureLayerDefinition.CreateSelectionLayer("SelectionFeatures", true, null, null);
+                }
 
+                int sp = 1;                                                 //处理步骤计数
+                ProgressForm progress = new ProgressForm();
+                progress.Show();
                 while (pFeature != null)
                 {
 
                     pEnvelope.Union(pFeature.Extent);
-                    pFeature = enumFeature.Next();
+                    string isunion = null;
+                    isunion = pFeature.get_Value(4).ToString();
+                    if (isunion == "1")
+                    {
+                        string osmid = null;
+                        string topid = null;
+                        string expert = null;
+                        osmid = pFeature.get_Value(3).ToString();
+                        topid = pFeature.get_Value(2).ToString();
+                        expert = pFeature.get_Value(5).ToString();
+                        //定义查询指针
+                        ISelectionSet pFeatSet = null;
+                        string sql = null;
+                        //开始查询
+                        //此查询原本基于layer ，后重写
+                        sql = MultiFeatureQuery(pFeature, ref pFeatSet, SelectLayer);    //生成查询到的要素集，返回sql查询语句
+                        double x = 0, y = 0;//截图中心点坐标
+                        IFeature pfeature_save = ClipProduce(cliprate, pFeature, sql);//对所有要素都采用裁剪，并生成裁剪要素
+
+                        //对offset区域进行中心点坐标的的计算
+                        if (pfeature_save != null)
+                        {
+                            CenterPointCalculate(pfeature_save, out x, out y);
+                        }
+                        else
+                        {//没查询到默认为0用中心代替
+                            x = 0; y = 0;
+                        }
+
+
+                        //图像生成
+                        if (sql != null)
+                        {
+                            // string path = @"D:\test_data\function_test\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";  //图像存储路径
+                            string path = savepath + @"\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";  //图像存储路径
+                            ImageDatesetProduce(sql, pFeatSet, pTocFeatureLayer, x, y, 1202, path, picW, picH, shotMethod);
+                            //ClipProduce(1000000, unionFeature,sql);             //如果只需要集合部分的裁剪就采用这一函数
+                            pFeature = enumFeature.Next();
+                        }
+                        else             //进行下一步
+                            pFeature = enumFeature.Next();
+
+                    }
+                    else
+                        pFeature = enumFeature.Next();
+
+                    //添加进度条
+                    progress.Addprogess(nSlection, sp);
+                    sp++;
                 }
                 pEnvelope.Expand(1.1, 1.1, true);
                 mainMapControl.ActiveView.Extent = pEnvelope;
                 mainMapControl.ActiveView.Refresh();
 
+                progress.Close();
             }
-            #endregion
-            ScreenShot shot = new ScreenShot();
+
+            //清除选择
+            IActiveView pActiveView = mainMapControl.ActiveView;
+            pActiveView.FocusMap.ClearSelection();
+            pActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeoSelection, null, pActiveView.Extent);
+
+        }
+        private void 要素截图ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            //唤起参数选择窗口
+            //MessageBox.Show("请先进行要素选择！", "提示");
+            ScreenShot shot = new ScreenShot(this);
+           // shot.Owner = this;
             shot.Show();//以无模式窗体方式调用
+
+            //将生成截图的功能与参数选择功能分离
+           
         }
     }
 

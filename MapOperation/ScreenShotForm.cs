@@ -12,8 +12,8 @@ namespace MapOperation
 {
     public partial class ScreenShotForm : Form
     {
-        string strPath = @"E:\Naraku\maskwork\data_code";
-        public ScreenShotForm()
+        //string strPath = @"E:\Naraku\maskwork\data_code";
+        public ScreenShotForm(string strPath)
         {
             InitializeComponent();
            // FileStream fs = new FileStream(strPath, FileMode.Open, FileAccess.Read);
