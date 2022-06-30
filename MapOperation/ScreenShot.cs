@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace MapOperation
@@ -29,7 +23,15 @@ namespace MapOperation
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
-                savePath.Text = folderBrowserDialog.SelectedPath;
+                //if (System.IO.Directory.GetFiles(folderBrowserDialog.SelectedPath).Length > 0)
+                //{
+                //    MessageBox.Show("请选择一个空文件夹！", "提示");
+                //}
+                //else
+                //{
+                    savePath.Text = folderBrowserDialog.SelectedPath;
+                //}
+                
             }
             folderBrowserDialog.Dispose();
         }
@@ -138,6 +140,11 @@ namespace MapOperation
         private void picType_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.picType.Text = "png";
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

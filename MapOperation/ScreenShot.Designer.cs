@@ -40,6 +40,7 @@ namespace MapOperation
             this.picType = new System.Windows.Forms.ComboBox();
             this.clipperRate = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.clipperRate)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,6 +50,7 @@ namespace MapOperation
             this.savePath.Name = "savePath";
             this.savePath.Size = new System.Drawing.Size(165, 21);
             this.savePath.TabIndex = 0;
+            this.savePath.Text = "C:\\Users\\11853\\Desktop\\Screenshot";
             this.savePath.TextChanged += new System.EventHandler(this.savePath_TextChanged);
             // 
             // choosePath
@@ -71,7 +73,7 @@ namespace MapOperation
             this.shotMethod.Name = "shotMethod";
             this.shotMethod.Size = new System.Drawing.Size(165, 20);
             this.shotMethod.TabIndex = 2;
-            this.shotMethod.Text = "请选择截图方式";
+            this.shotMethod.Text = "按外接矩形截图";
             this.shotMethod.SelectedIndexChanged += new System.EventHandler(this.shotMethod_SelectedIndexChanged);
             // 
             // CreatePic
@@ -127,11 +129,11 @@ namespace MapOperation
             "png",
             "jpeg",
             "gif"});
-            this.picType.Location = new System.Drawing.Point(57, 203);
+            this.picType.Location = new System.Drawing.Point(152, 203);
             this.picType.Name = "picType";
-            this.picType.Size = new System.Drawing.Size(165, 20);
+            this.picType.Size = new System.Drawing.Size(70, 20);
             this.picType.TabIndex = 9;
-            this.picType.Text = "请选择截图格式";
+            this.picType.Text = "png";
             this.picType.SelectedIndexChanged += new System.EventHandler(this.picType_SelectedIndexChanged);
             // 
             // clipperRate
@@ -173,11 +175,22 @@ namespace MapOperation
             this.label3.Text = "Clipper rate";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(57, 208);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(89, 12);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "请选择截图格式";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
+            // 
             // ScreenShot
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(392, 259);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.clipperRate);
             this.Controls.Add(this.picType);
@@ -211,5 +224,6 @@ namespace MapOperation
         private System.Windows.Forms.ComboBox picType;
         private System.Windows.Forms.NumericUpDown clipperRate;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }

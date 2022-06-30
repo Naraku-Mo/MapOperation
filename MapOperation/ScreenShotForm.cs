@@ -12,41 +12,56 @@ namespace MapOperation
 {
     public partial class ScreenShotForm : Form
     {
+
         //string strPath = @"E:\Naraku\maskwork\data_code";
         public ScreenShotForm(string strPath)
         {
             InitializeComponent();
-           // FileStream fs = new FileStream(strPath, FileMode.Open, FileAccess.Read);
+            // FileStream fsall = new FileStream(strPath, FileMode.Open, FileAccess.Read);
+            DirectPath = strPath;
             foreach (string Path in System.IO.Directory.GetFiles(strPath))
             {
+                string picName = Path.Substring(Path.LastIndexOf("\\") + 1, Path.LastIndexOf(".") - Path.LastIndexOf("\\") - 1);
                 string PathExt = Path.Substring(Path.Length - 3, 3);
                 if (PathExt == "jpg" || PathExt == "bmp" || PathExt == "png") //筛选图片格式
                 {
                     ImagePaths.Add(Path);
                 }
+                if (picName != "")
+                {
+                    listBox1.Items.Add(picName);
+                }
             }
             if (ImagePaths.Count != 0)
             {
                 ImageCount = ImagePaths.Count; //获取图片总数
-                this.pictureBox1.Image = Bitmap.FromFile(ImagePaths[0]); //加载图片
-                label1.Text = System.IO.Path.GetFileName(ImagePaths[0]);
+                FileStream fs = new FileStream(ImagePaths[0], FileMode.Open, FileAccess.Read);
+                this.pictureBox1.Image = Image.FromStream(fs); //加载图片
+                label1.Text =  fs.Name.Substring(fs.Name.LastIndexOf("\\") + 1, fs.Name.LastIndexOf(".") - fs.Name.LastIndexOf("\\") - 1);
                 label2.Text = "截图1";
+                fs.Close();
+                fs.Dispose();
             }
             else
                 MessageBox.Show("未生成截图！");
 
         }
+        private string DirectPath=null;
         private int ImageCount; //图片总数
         private List<string> ImagePaths = new List<string>(); //图片路径列表
         private int nowCount = 0; //已显示图片个数
+        //轮换图片存在bug需要fix
         private void button1_Click(object sender, EventArgs e)
         {
             //下一张
             if (ImageCount == 1)
             {
-                this.pictureBox1.Image = Bitmap.FromFile(ImagePaths[0]); //加载图片
-                label1.Text = System.IO.Path.GetFileName(ImagePaths[0]);
+                FileStream fs = new FileStream(ImagePaths[0], FileMode.Open, FileAccess.Read);
+                this.pictureBox1.Image = Image.FromStream(fs); //加载图片
+                label1.Text = fs.Name.Substring(fs.Name.LastIndexOf("\\") + 1, fs.Name.LastIndexOf(".") - fs.Name.LastIndexOf("\\") - 1);
                 label2.Text = "截图1";
+                fs.Close();
+                fs.Dispose();
             }
             else
             {
@@ -56,15 +71,19 @@ namespace MapOperation
                 }
                 if (nowCount > -1 & nowCount < ImageCount)
                 {
-                    this.pictureBox1.Image = Bitmap.FromFile(ImagePaths[nowCount]); //加载图片
-                    label1.Text = System.IO.Path.GetFileName(ImagePaths[nowCount]);
+                    FileStream fs = new FileStream(ImagePaths[nowCount], FileMode.Open, FileAccess.Read);
+                    this.pictureBox1.Image = Image.FromStream(fs); //加载图片
+                    label1.Text = fs.Name.Substring(fs.Name.LastIndexOf("\\") + 1, fs.Name.LastIndexOf(".") - fs.Name.LastIndexOf("\\") - 1);
                     label2.Text = "截图" + (nowCount + 1);
-                    if (nowCount < ImageCount - 1)
+                    if (nowCount < ImageCount )
                     {
                         nowCount++;
                     }
+                    fs.Close();
+                    fs.Dispose();
                 }
             }
+            pictureBox1.Refresh();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -72,9 +91,12 @@ namespace MapOperation
             //上一张
             if (ImageCount == 1)
             {
-                this.pictureBox1.Image = Bitmap.FromFile(ImagePaths[0]); //加载图片
-                label1.Text = System.IO.Path.GetFileName(ImagePaths[0]);
+                FileStream fs = new FileStream(ImagePaths[0], FileMode.Open, FileAccess.Read);
+                this.pictureBox1.Image = Image.FromStream(fs); //加载图片
+                label1.Text = fs.Name.Substring(fs.Name.LastIndexOf("\\") + 1, fs.Name.LastIndexOf(".") - fs.Name.LastIndexOf("\\") - 1);
                 label2.Text = "截图1";
+                fs.Close();
+                fs.Dispose();
             }
             else
             {
@@ -84,15 +106,26 @@ namespace MapOperation
                 }
                 if (nowCount >-1 & nowCount< ImageCount)
                 {
-                    this.pictureBox1.Image = Bitmap.FromFile(ImagePaths[nowCount]); //加载图片
-                    label1.Text = System.IO.Path.GetFileName(ImagePaths[nowCount]);
+                    //this.pictureBox1.Image = Bitmap.FromFile(ImagePaths[nowCount]); //加载图片
+                    //label1.Text = System.IO.Path.GetFileName(ImagePaths[nowCount]);
+                    //label2.Text = "截图" + (nowCount + 1);
+                    //if (nowCount > 0)
+                    //{
+                    //    nowCount--;
+                    //}
+                    FileStream fs = new FileStream(ImagePaths[nowCount], FileMode.Open, FileAccess.Read);
+                    this.pictureBox1.Image = Image.FromStream(fs); //加载图片
+                    label1.Text = fs.Name.Substring(fs.Name.LastIndexOf("\\") + 1, fs.Name.LastIndexOf(".") -fs.Name.LastIndexOf("\\") - 1);
                     label2.Text = "截图" + (nowCount + 1);
-                    if (nowCount > 0)
+                    if (nowCount < ImageCount )
                     {
-                        nowCount--;
+                        nowCount++;
                     }
+                    fs.Close();
+                    fs.Dispose();
                 }
             }
+            pictureBox1.Refresh();
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -115,40 +148,64 @@ namespace MapOperation
 
         private void button3_Click(object sender, EventArgs e)
         {
-            //继续截图
+
+            //继续截图??如何实现，需要找出未释放的空间！
             if (MessageBox.Show("要保存当前截图吗？", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             {
                 MessageBox.Show("保存成功!");
-               ImagePaths.Clear();
+                ImagePaths.Clear();
+                ImagePaths = null;
                 this.pictureBox1.Image.Dispose();
                 this.Dispose();
             }
             else
             {
+                int sp = 1;                                                 //处理步骤计数
+                ProgressForm progress = new ProgressForm();
+                progress.Show();
+                int c = ImagePaths.Count;
+                if (c != 0)
+                {
+                    for (int i = 0; i < c; i++)
+                    {
+                        System.IO.File.Delete(ImagePaths[i]);
+                        //添加进度条
+                        progress.Addprogess(c, sp);
+                        sp++;
+                    }
+                    progress.Close();
+                }
+                
                 ImagePaths.Clear();
+                ImagePaths = null;
+
                 this.pictureBox1.Image.Dispose();
                 this.Dispose();
 
-                //if (System.IO.Directory.Exists(strPath))
-                //{
-                //    string[] strDirs = System.IO.Directory.GetDirectories(strPath);
-                //    string[] strFiles = System.IO.Directory.GetFiles(strPath);
-                //    foreach (string strFile in strFiles)
-                //    {
-                //        System.IO.File.Delete(strFile);
-                //    }
-                //    foreach (string strdir in strDirs)
-                //    {
-                //        System.IO.Directory.Delete(strdir, true);
-                //    }
-                //}
+              
 
             }
         }
 
         private void button4_Click(object sender, EventArgs e)
-        {
+        {		
 
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string filepath = DirectPath +@"\\"+ this.listBox1.SelectedItem.ToString();
+            if (filepath != null)
+            {
+                FileStream fs = new FileStream(filepath, FileMode.Open, FileAccess.Read);
+                this.pictureBox1.Image = Image.FromStream(fs); //加载图片
+                label1.Text = this.listBox1.SelectedItem.ToString();
+                label2.Text = null;
+
+                fs.Close();
+                fs.Dispose();
+            }
+            pictureBox1.Refresh();
         }
     }
 }

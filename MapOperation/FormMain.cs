@@ -4502,6 +4502,8 @@ namespace MapOperation
                         //此查询原本基于layer ，后重写
                         sql = MultiFeatureQuery(pFeature, ref pFeatSet, SelectLayer);    //生成查询到的要素集，返回sql查询语句
                         double x = 0, y = 0;//截图中心点坐标
+                        if(shotMethod!=1)
+                        { 
                         IFeature pfeature_save = ClipProduce(cliprate, pFeature, sql);//对所有要素都采用裁剪，并生成裁剪要素
 
                         //对offset区域进行中心点坐标的的计算
@@ -4513,7 +4515,7 @@ namespace MapOperation
                         {//没查询到默认为0用中心代替
                             x = 0; y = 0;
                         }
-
+                        }
 
                         //图像生成
                         if (sql != null)
@@ -4550,12 +4552,21 @@ namespace MapOperation
         }
         private void 要素截图ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            //唤起参数选择窗口
-            //MessageBox.Show("请先进行要素选择！", "提示");
-            ScreenShot shot = new ScreenShot(this);
-           // shot.Owner = this;
-            shot.Show();//以无模式窗体方式调用
+            Form _frm = Application.OpenForms["ScreenShot"];  //查找是否打开过窗体  
+            if ((_frm == null) || (_frm.IsDisposed))       //如果没有打开过
+            {
+                //唤起参数选择窗口
+                //MessageBox.Show("请先进行要素选择！", "提示");
+                ScreenShot shot = new ScreenShot(this);
+                // shot.Owner = this;
+                shot.Show();//以无模式窗体方式调用
+            }
+            else
+            {
+                _frm.Activate();
+                _frm.WindowState = FormWindowState.Normal;
+            }
+          
 
             //将生成截图的功能与参数选择功能分离
            
