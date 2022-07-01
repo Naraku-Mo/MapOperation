@@ -116,9 +116,24 @@ namespace MapOperation
             int picW = GetWidth();
             int picH = GetHeight();
             int shotMethod = GetMethod();
-            mform.Para_Screenshot(savepath,  cliprate, picW, picH, shotMethod);
-            ScreenShotForm shot = new ScreenShotForm(savepath);
-            shot.Show();//以无模式窗体方式调用
+            Form _frm = Application.OpenForms["ScreenShotForm"];  //查找是否打开过窗体  
+            if ((_frm == null) || (_frm.IsDisposed))       //如果没有打开过
+            {
+               int nSelection =  mform.mainMapControl.Map.SelectionCount;
+                if (nSelection != 0) {
+                    mform.Para_Screenshot(savepath, cliprate, picW, picH, shotMethod);
+                    ScreenShotForm shot = new ScreenShotForm(savepath);
+                    shot.Show();//以无模式窗体方式调用
+                }
+                else
+                    MessageBox.Show("请先进行要素选择！", "提示");
+            }
+            else
+            {
+                _frm.Activate();
+                _frm.WindowState = FormWindowState.Normal;
+            }
+           
 
         }
 

@@ -29,6 +29,7 @@ namespace MapOperation
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -37,6 +38,8 @@ namespace MapOperation
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -104,7 +107,7 @@ namespace MapOperation
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 6;
-            this.button4.Text = "另存为";
+            this.button4.Text = "关闭";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
@@ -112,17 +115,34 @@ namespace MapOperation
             // 
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 12;
-            this.listBox1.Location = new System.Drawing.Point(12, 12);
+            this.listBox1.Location = new System.Drawing.Point(12, 528);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(191, 496);
+            this.listBox1.Size = new System.Drawing.Size(182, 40);
             this.listBox1.TabIndex = 7;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            // 
+            // listView1
+            // 
+            this.listView1.HideSelection = false;
+            this.listView1.Location = new System.Drawing.Point(12, 12);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(182, 500);
+            this.listView1.TabIndex = 8;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            // 
+            // imageList1
+            // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(100, 100);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // ScreenShotForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(741, 589);
+            this.Controls.Add(this.listView1);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
@@ -150,5 +170,7 @@ namespace MapOperation
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }

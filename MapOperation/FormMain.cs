@@ -4461,7 +4461,7 @@ namespace MapOperation
             IFeatureLayer SelectLayer = null;
             if (nSlection == 0)
             {
-                MessageBox.Show("请先进行要素选择！", "提示");
+                //为防止弹出空窗口，已在ScreenShot窗口判断过
             }
             else
             {
