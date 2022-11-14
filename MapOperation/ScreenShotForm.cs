@@ -66,6 +66,7 @@ namespace MapOperation
             this.listView1.EndUpdate();
 
         }
+        FileStream fs;
         private string DirectPath=null;
         private int ImageCount; //图片总数
         private List<string> ImagePaths = new List<string>(); //图片路径列表
@@ -80,7 +81,7 @@ namespace MapOperation
                 {
                     index = 0;
                     //显示图片
-                    FileStream fs = new FileStream(ImagePaths[index], FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    fs = new FileStream(ImagePaths[index], FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                     this.pictureBox1.Image = Image.FromStream(fs); //加载图片
                   //  this.pictureBox1.Image = Image.FromFile(ImagePaths[index]);
                     pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -94,7 +95,7 @@ namespace MapOperation
                 {
                     index++;
                     //显示图片
-                    FileStream fs = new FileStream(ImagePaths[index], FileMode.Open, FileAccess.Read,FileShare.ReadWrite);
+                    fs = new FileStream(ImagePaths[index], FileMode.Open, FileAccess.Read,FileShare.ReadWrite);
                     this.pictureBox1.Image = Image.FromStream(fs); //加载图片
                      //  this.pictureBox1.Image = Image.FromFile(ImagePaths[index]);
                     pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -149,7 +150,7 @@ namespace MapOperation
                 {
                     index--;
                     //显示图片
-                    FileStream fs = new FileStream(ImagePaths[index], FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    fs = new FileStream(ImagePaths[index], FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                     this.pictureBox1.Image = Image.FromStream(fs); //加载图片
                      //  this.pictureBox1.Image = Image.FromFile(ImagePaths[index]);
                     pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -164,7 +165,7 @@ namespace MapOperation
                     index = ImageCount;
                     index--;
                     //显示图片
-                    FileStream fs = new FileStream(ImagePaths[index], FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    fs = new FileStream(ImagePaths[index], FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                     this.pictureBox1.Image = Image.FromStream(fs); //加载图片
                     //  this.pictureBox1.Image = Image.FromFile(ImagePaths[index]);
                     pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -256,16 +257,23 @@ namespace MapOperation
                 
                 if (ImageCount != 0)
                 {
-                    for (int i = 0; i < ImageCount; i++)
+                    try
                     {
-                        System.IO.File.Delete(ImagePaths[i]);
-                        //添加进度条
-                        progress.Addprogess(ImageCount, sp);
-                        sp++;
+                        for (int i = 0; i < ImageCount; i++)
+                        {
+                            System.IO.File.Delete(ImagePaths[i]);
+                            //添加进度条
+                            progress.Addprogess(ImageCount, sp);
+                            sp++;
+                        }
+                       
                     }
-                    progress.Close();
+                 catch(Exception ex)
+                    {
+                        MessageBox.Show("暂不支持删除此截图文件!"+ex.Message, "", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                    }
                 }
-                
+                progress.Close();
                 ImagePaths.Clear();
                 ImagePaths = null;
 
@@ -283,20 +291,27 @@ namespace MapOperation
             int sp = 1;                                                 //处理步骤计数
             ProgressForm progress = new ProgressForm();
             progress.Show();
-           
-            if (ImageCount != 0)
+            try
             {
-                for (int i = 0; i < ImageCount; i++)
+                if (ImageCount != 0)
                 {
-                    //string filename = ImagePaths[i];
-                    //解决文件占用问题？？
-                    System.IO.File.Delete(ImagePaths[i]);
-                    //添加进度条
-                    progress.Addprogess(ImageCount, sp);
-                    sp++;
-                }
-                progress.Close();
+                    for (int i = 0; i < ImageCount; i++)
+                    {
+                        //string filename = ImagePaths[i];
+                        //解决文件占用问题？？
+                        System.IO.File.Delete(ImagePaths[i]);
+                        //添加进度条
+                        progress.Addprogess(ImageCount, sp);
+                        sp++;
+                    }
+                   
+                }   
             }
+             catch(Exception ex)
+            {
+                MessageBox.Show("暂不支持删除此截图文件!" + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            progress.Close();
             ImagePaths.Clear();
             ImagePaths = null;
 

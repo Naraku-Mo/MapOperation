@@ -149,17 +149,12 @@ namespace MapOperation
             0,
             0,
             0});
-            this.clipperRate.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
             this.clipperRate.Name = "clipperRate";
             this.clipperRate.Size = new System.Drawing.Size(82, 21);
             this.clipperRate.TabIndex = 10;
             this.clipperRate.Tag = "";
             this.clipperRate.Value = new decimal(new int[] {
-            5,
+            3,
             0,
             0,
             0});

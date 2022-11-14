@@ -58,8 +58,9 @@
             this.btnZoomToSel = new System.Windows.Forms.ToolStripMenuItem();
             this.btnClearSel = new System.Windows.Forms.ToolStripMenuItem();
             this.平滑线ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.测试ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.按中心区域截图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.要素截图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.差异样本生成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.barCoorTxt = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -84,7 +85,7 @@
             this.按固定面积截图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel2 = new System.Windows.Forms.Panel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.要素截图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.属性表标注ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -115,9 +116,10 @@
             this.MapView,
             this.MapSel,
             this.平滑线ToolStripMenuItem,
-            this.测试ToolStripMenuItem1,
             this.按中心区域截图ToolStripMenuItem,
-            this.要素截图ToolStripMenuItem});
+            this.要素截图ToolStripMenuItem,
+            this.差异样本生成ToolStripMenuItem,
+            this.属性表标注ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(734, 25);
@@ -312,21 +314,21 @@
             // btnSelFeature
             // 
             this.btnSelFeature.Name = "btnSelFeature";
-            this.btnSelFeature.Size = new System.Drawing.Size(180, 22);
+            this.btnSelFeature.Size = new System.Drawing.Size(136, 22);
             this.btnSelFeature.Text = "要素选择";
             this.btnSelFeature.Click += new System.EventHandler(this.btnSelFeature_Click);
             // 
             // btnZoomToSel
             // 
             this.btnZoomToSel.Name = "btnZoomToSel";
-            this.btnZoomToSel.Size = new System.Drawing.Size(180, 22);
+            this.btnZoomToSel.Size = new System.Drawing.Size(136, 22);
             this.btnZoomToSel.Text = "缩放至选择";
             this.btnZoomToSel.Click += new System.EventHandler(this.btnZoomToSel_Click);
             // 
             // btnClearSel
             // 
             this.btnClearSel.Name = "btnClearSel";
-            this.btnClearSel.Size = new System.Drawing.Size(180, 22);
+            this.btnClearSel.Size = new System.Drawing.Size(136, 22);
             this.btnClearSel.Text = "清除选择";
             this.btnClearSel.Click += new System.EventHandler(this.btnClearSel_Click);
             // 
@@ -335,19 +337,26 @@
             this.平滑线ToolStripMenuItem.Name = "平滑线ToolStripMenuItem";
             this.平滑线ToolStripMenuItem.Size = new System.Drawing.Size(12, 21);
             // 
-            // 测试ToolStripMenuItem1
-            // 
-            this.测试ToolStripMenuItem1.Name = "测试ToolStripMenuItem1";
-            this.测试ToolStripMenuItem1.Size = new System.Drawing.Size(44, 21);
-            this.测试ToolStripMenuItem1.Text = "测试";
-            this.测试ToolStripMenuItem1.Click += new System.EventHandler(this.测试ToolStripMenuItem1_Click);
-            // 
             // 按中心区域截图ToolStripMenuItem
             // 
             this.按中心区域截图ToolStripMenuItem.Name = "按中心区域截图ToolStripMenuItem";
             this.按中心区域截图ToolStripMenuItem.Size = new System.Drawing.Size(104, 21);
             this.按中心区域截图ToolStripMenuItem.Text = "按中心区域截图";
             this.按中心区域截图ToolStripMenuItem.Click += new System.EventHandler(this.按中心区域截图ToolStripMenuItem_Click);
+            // 
+            // 要素截图ToolStripMenuItem
+            // 
+            this.要素截图ToolStripMenuItem.Name = "要素截图ToolStripMenuItem";
+            this.要素截图ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
+            this.要素截图ToolStripMenuItem.Text = "要素截图";
+            this.要素截图ToolStripMenuItem.Click += new System.EventHandler(this.要素截图ToolStripMenuItem_Click);
+            // 
+            // 差异样本生成ToolStripMenuItem
+            // 
+            this.差异样本生成ToolStripMenuItem.Name = "差异样本生成ToolStripMenuItem";
+            this.差异样本生成ToolStripMenuItem.Size = new System.Drawing.Size(92, 21);
+            this.差异样本生成ToolStripMenuItem.Text = "差异样本生成";
+            this.差异样本生成ToolStripMenuItem.Click += new System.EventHandler(this.差异样本生成ToolStripMenuItem_Click_1);
             // 
             // statusStrip1
             // 
@@ -594,12 +603,12 @@
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // 要素截图ToolStripMenuItem
+            // 属性表标注ToolStripMenuItem
             // 
-            this.要素截图ToolStripMenuItem.Name = "要素截图ToolStripMenuItem";
-            this.要素截图ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
-            this.要素截图ToolStripMenuItem.Text = "要素截图";
-            this.要素截图ToolStripMenuItem.Click += new System.EventHandler(this.要素截图ToolStripMenuItem_Click);
+            this.属性表标注ToolStripMenuItem.Name = "属性表标注ToolStripMenuItem";
+            this.属性表标注ToolStripMenuItem.Size = new System.Drawing.Size(80, 21);
+            this.属性表标注ToolStripMenuItem.Text = "属性表标注";
+            this.属性表标注ToolStripMenuItem.Click += new System.EventHandler(this.属性表标注ToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -696,9 +705,10 @@
         private System.Windows.Forms.ToolStripMenuItem 更多要素截图ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 多要素处理ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 按固定面积截图ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 测试ToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 按中心区域截图ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 要素截图ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 差异样本生成ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 属性表标注ToolStripMenuItem;
     }
 }
 

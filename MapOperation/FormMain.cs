@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-
+using System.Drawing.Imaging;
 
 
 namespace MapOperation
@@ -670,7 +670,7 @@ namespace MapOperation
             #endregion
         }
 
-     
+
         //逐级放大
         private void btnZoomInStep_Click(object sender, EventArgs e)
         {
@@ -755,15 +755,15 @@ namespace MapOperation
             }
             else
             {
-                ISelection selection = mainMapControl.Map.FeatureSelection;               
+                ISelection selection = mainMapControl.Map.FeatureSelection;
                 IEnumFeature enumFeature = (IEnumFeature)selection;
                 enumFeature.Reset();
                 IEnvelope pEnvelope = new EnvelopeClass();
                 IFeature pFeature = enumFeature.Next();
-               
+
                 while (pFeature != null)
                 {
-                   
+
                     pEnvelope.Union(pFeature.Extent);
                     pFeature = enumFeature.Next();
                 }
@@ -896,7 +896,7 @@ namespace MapOperation
                         #region 要素截图
 
                         case "Screenshot":
-                           
+
                             break;
 
                         #endregion
@@ -1655,7 +1655,7 @@ namespace MapOperation
             object selObj = this.plugins[this.listBox1.SelectedIndex];
             Type t = selObj.GetType();
             //tsb.Click += new EventHandler(method);
-            tsb.Click += delegate(object o, EventArgs ee)
+            tsb.Click += delegate (object o, EventArgs ee)
             { method(Convert.ToInt32(tsb.Text)); };
             //tsb.Image = Image.FromFile(@"E:\code\MapOperation\Properties\blank.bmp");
             toolStrip1.Items.Add(tsb);
@@ -1773,11 +1773,11 @@ namespace MapOperation
             //Create ToolStripMenuItem in C#
 
 
-            commandtool.Click += delegate(object o, EventArgs e)
+            commandtool.Click += delegate (object o, EventArgs e)
             {
 
             };
-            commandtool.MouseDown += delegate(object o, MouseEventArgs e)
+            commandtool.MouseDown += delegate (object o, MouseEventArgs e)
             {
                 if (e.Button == MouseButtons.Right)
                 {
@@ -1791,7 +1791,7 @@ namespace MapOperation
 
             };
 
-            commandtool.MouseUp += delegate(object o, MouseEventArgs e)
+            commandtool.MouseUp += delegate (object o, MouseEventArgs e)
             {
                 if (e.Button == MouseButtons.Left)
                 {
@@ -1819,7 +1819,7 @@ namespace MapOperation
 
             };
 
-            commandtool.MouseMove += delegate(object o, MouseEventArgs e)
+            commandtool.MouseMove += delegate (object o, MouseEventArgs e)
             {
                 if (e.Button == MouseButtons.Left)
                 {
@@ -1930,71 +1930,71 @@ namespace MapOperation
             pExport.FinishExporting();
             pExport.Cleanup();
         }
-        public static bool ExportView_test2(IActiveView activeView, string fileName,  IEnvelope env, int dpi)
+        public static bool ExportView_test2(IActiveView activeView, string fileName, IEnvelope env, int dpi)
         {
             //try
             //{
-                IExport export = null;
-                string filter = fileName.Substring(fileName.LastIndexOf('.'));
-                switch (filter)
-                {
-                    case ".jpg":
-                        export = new ExportJPEGClass();
-                        break;
-                    case ".bmp":
-                        export = new ExportBMPClass();
-                        break;
-                    case ".emf":
-                        export = new ExportEMFClass();
-                        break;
-                    case ".gif":
-                        export = new ExportGIFClass();
-                        break;
-                    case ".ai":
-                        export = new ExportAIClass();
-                        break;
-                    case ".pdf":
-                        export = new ExportPDFClass();
-                        break;
-                    case ".png":
-                        export = new ExportPNGClass();
-                        break;
-                    case ".eps":
-                        export = new ExportPSClass();
-                        break;
-                    case ".svg":
-                        export = new ExportSVGClass();
-                        break;
-                    case ".tif":
-                        export = new ExportTIFFClass();
-                        break;
-                    default:
-                        //MessageBox.Show("输出格式错误");
-                        return false;
-                }
-                double screenResolution = activeView.ScreenDisplay.DisplayTransformation.Resolution;
-                tagRECT exportRECT;
-                exportRECT.left = 0;
-                exportRECT.top = 0;
-                int pixw = 0;
-                int pixh = 0;
-                pixw = (int)(env.Width * (dpi / screenResolution));
-                pixh = (int)(env.Height * (dpi / screenResolution));
-                exportRECT.right = pixw;
-                exportRECT.bottom = pixh;
-                IEnvelope pEnv = new EnvelopeClass();
-                pEnv.PutCoords(exportRECT.left, exportRECT.bottom, exportRECT.right, exportRECT.top);
-                export.PixelBounds = pEnv;
-                export.ExportFileName = fileName;
-                export.Resolution = dpi;
-                IOutputRasterSettings pOutputRasterSettings = activeView.ScreenDisplay.DisplayTransformation as IOutputRasterSettings;
-                pOutputRasterSettings.ResampleRatio = 1;
-                activeView.Output(export.StartExporting(), dpi, ref exportRECT, env, null);
-                export.FinishExporting();
-                export.Cleanup();
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(export);
-                return true;
-           // }
+            IExport export = null;
+            string filter = fileName.Substring(fileName.LastIndexOf('.'));
+            switch (filter)
+            {
+                case ".jpg":
+                    export = new ExportJPEGClass();
+                    break;
+                case ".bmp":
+                    export = new ExportBMPClass();
+                    break;
+                case ".emf":
+                    export = new ExportEMFClass();
+                    break;
+                case ".gif":
+                    export = new ExportGIFClass();
+                    break;
+                case ".ai":
+                    export = new ExportAIClass();
+                    break;
+                case ".pdf":
+                    export = new ExportPDFClass();
+                    break;
+                case ".png":
+                    export = new ExportPNGClass();
+                    break;
+                case ".eps":
+                    export = new ExportPSClass();
+                    break;
+                case ".svg":
+                    export = new ExportSVGClass();
+                    break;
+                case ".tif":
+                    export = new ExportTIFFClass();
+                    break;
+                default:
+                    //MessageBox.Show("输出格式错误");
+                    return false;
+            }
+            double screenResolution = activeView.ScreenDisplay.DisplayTransformation.Resolution;
+            tagRECT exportRECT;
+            exportRECT.left = 0;
+            exportRECT.top = 0;
+            int pixw = 0;
+            int pixh = 0;
+            pixw = (int)(env.Width * (dpi / screenResolution));
+            pixh = (int)(env.Height * (dpi / screenResolution));
+            exportRECT.right = pixw;
+            exportRECT.bottom = pixh;
+            IEnvelope pEnv = new EnvelopeClass();
+            pEnv.PutCoords(exportRECT.left, exportRECT.bottom, exportRECT.right, exportRECT.top);
+            export.PixelBounds = pEnv;
+            export.ExportFileName = fileName;
+            export.Resolution = dpi;
+            IOutputRasterSettings pOutputRasterSettings = activeView.ScreenDisplay.DisplayTransformation as IOutputRasterSettings;
+            pOutputRasterSettings.ResampleRatio = 1;
+            activeView.Output(export.StartExporting(), dpi, ref exportRECT, env, null);
+            export.FinishExporting();
+            export.Cleanup();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(export);
+            return true;
+            // }
             //catch 
             //{
             //    return false;
@@ -2080,7 +2080,7 @@ namespace MapOperation
         public IFeatureClass GetIFeatureClass(string FeatureType)
         {
             IWorkspaceFactory pWorkspaceFactory = new ShapefileWorkspaceFactory();
-            IWorkspace pWorkSpace = pWorkspaceFactory.OpenFromFile(@"E:\Naraku\work", 0);
+            IWorkspace pWorkSpace = pWorkspaceFactory.OpenFromFile(@"E:\Naraku\experiment\work", 0);
             //初始化要素工作空间
             IFeatureWorkspace pFeatWorkSpace = pWorkSpace as IFeatureWorkspace;
             IFeatureClass pFeatureClass = pFeatWorkSpace.OpenFeatureClass(FeatureType);
@@ -2157,14 +2157,14 @@ namespace MapOperation
             IFeatureDataConverter pShpToClsConverter = new FeatureDataConverterClass();
             pShpToClsConverter.ConvertFeatureClass(pOutFeatureClassName, null, null, pInFeatureClassName, null, null, "", 1000, 0);
         }
-        /// <summary>进行连锁查询
+        /// <summary>进行差异部分单独查询
         /// 必须先获取当前的要素，当前图层，以及一个空的要素集，
         /// </summary>
-        /// <param name="unionFeature">当前的要素</param>
+        /// <param name="diffFeature">差异部分要素</param>
         /// <param name="pFeatSet">空的要素集，用来返回</param>
         /// <param name="pTocFeatureLayer">当前要素图层</param>
         /// <returns>查询到返回查询语句，反之返回null</returns>
-        public string MultiFeatureQuery(IFeature unionFeature, ref ISelectionSet pFeatSet, IFeatureLayer pTocFeatureLayer)
+        public string DiffFeatureQuery(IFeature diffFeature, ref ISelectionSet pFeatSet, IFeatureLayer pTocFeatureLayer)
         {
             string sql = null;
             string osmid = null;
@@ -2173,8 +2173,45 @@ namespace MapOperation
             string osmcount = null;
             string top10count = null;
             string isboth = null;
+            string isShift = null;
+            string is_union = diffFeature.get_Value(4).ToString();
+            isboth = diffFeature.get_Value(8).ToString();
+            //isShift = unionFeature.get_Value(11).ToString();
+            osmid = diffFeature.get_Value(3).ToString();
+            topid = diffFeature.get_Value(2).ToString();
+                expert =diffFeature.get_Value(5).ToString();
+                //定义查询模块
+                IQueryFilter pQueryFilter;
+                pQueryFilter = new QueryFilterClass();
+                IFeatureSelection pFeatSel;
+                //开始查询
+                sql = "TOP10_ID = " + topid + "OR osm_id = " + osmid;
+                pQueryFilter.WhereClause = sql;
+                pFeatSel = pTocFeatureLayer as IFeatureSelection;
+                pFeatSel.SelectFeatures(pQueryFilter, esriSelectionResultEnum.esriSelectionResultNew, false);
+                pFeatSet = pFeatSel.SelectionSet;
+            return sql;
+        }
+            /// <summary>进行连锁查询
+            /// 必须先获取当前的要素，当前图层，以及一个空的要素集，
+            /// </summary>
+            /// <param name="unionFeature">当前的要素</param>
+            /// <param name="pFeatSet">空的要素集，用来返回</param>
+            /// <param name="pTocFeatureLayer">当前要素图层</param>
+            /// <returns>查询到返回查询语句，反之返回null</returns>
+            public string MultiFeatureQuery(IFeature unionFeature, ref ISelectionSet pFeatSet, IFeatureLayer pTocFeatureLayer)
+        {
+            string sql = null;
+            string osmid = null;
+            string topid = null;
+            string expert = null;
+            string osmcount = null;
+            string top10count = null;
+            string isboth = null;
+            string isShift = null;
             string is_union = unionFeature.get_Value(4).ToString();
             isboth = unionFeature.get_Value(8).ToString();
+            //isShift = unionFeature.get_Value(11).ToString();
             if (is_union == "1" && isboth == "0")
             {
                 osmid = unionFeature.get_Value(3).ToString();
@@ -2414,7 +2451,7 @@ namespace MapOperation
                     pFeatSel.SelectFeatures(pQueryFilter, esriSelectionResultEnum.esriSelectionResultNew, false);
                     pFeatSet = pFeatSel.SelectionSet;
                 }
-                 if (top10count != "2" || osmcount != "2")//多连锁情况处理
+                if (top10count != "2" || osmcount != "2")//多连锁情况处理
                 {
                     osmid = unionFeature.get_Value(3).ToString();
                     topid = unionFeature.get_Value(2).ToString();
@@ -2491,11 +2528,11 @@ namespace MapOperation
                     pFeatSel.SelectFeatures(pQueryFilter, esriSelectionResultEnum.esriSelectionResultNew, false);
                     pFeatSet = pFeatSel.SelectionSet;
                 }
-                 else
-                 {
-                     sql = null;
-                     return sql;
-                 };
+                else
+                {
+                    sql = null;
+                    return sql;
+                };
             }
             else return sql;
             return sql;
@@ -2757,7 +2794,7 @@ namespace MapOperation
                     pFeatSel.SelectFeatures(pQueryFilter, esriSelectionResultEnum.esriSelectionResultNew, false);
                     pFeatSet = pFeatSel.SelectionSet;
                 }
-                 if (top10count != "2" || osmcount != "2")//多连锁情况处理
+                if (top10count != "2" || osmcount != "2")//多连锁情况处理
                 {
                     osmid = unionFeature.get_Value(3).ToString();
                     topid = unionFeature.get_Value(2).ToString();
@@ -2834,11 +2871,11 @@ namespace MapOperation
                     pFeatSel.SelectFeatures(pQueryFilter, esriSelectionResultEnum.esriSelectionResultNew, false);
                     pFeatSet = pFeatSel.SelectionSet;
                 }
-                 else
-                 {
-                     sql = null;
-                     return sql;
-                 };
+                else
+                {
+                    sql = null;
+                    return sql;
+                };
             }
             else return sql;
             return sql;
@@ -2852,7 +2889,7 @@ namespace MapOperation
         /// <param name="path">图像保存路径</param>
         ///  /// <param name="picWay">截图方法</param>
         public void ImageDatesetProduce(string sql, ISelectionSet pFeatSet, IFeatureLayer pTocFeatureLayer,
-           double x,double y, int pixel,string path,int picW,int  picH, int picWay)
+           double x, double y, int pixel, string path, int picW, int picH, int picWay)
         {
             IFeatureCursor pFeatCursor;
             ICursor pCursor;
@@ -2875,7 +2912,8 @@ namespace MapOperation
                 }
                 pfeat = pFeatCursor.NextFeature();
             }
-            pFeatLyrdef.DefinitionExpression = sql;
+            //pFeatLyrdef.DefinitionExpression = sql;///图层选择性显示
+            pFeatLyrdef.DefinitionExpression = "";///完全显示
             mainMapControl.ActiveView.Extent = pEnvelope;
             mainMapControl.ActiveView.Refresh();
             //如果传过来的是空的
@@ -2890,7 +2928,7 @@ namespace MapOperation
             //    y = 436044.796;
             //}
             IE.PutCoords(x - 20, y - 20, x + 20, y + 20);
-            if(picWay==1)
+            if (picWay == 1)
             {
                 ExportView_test(mainMapControl.ActiveView, IE, 20, picW, picH, path);//外接矩形
             }
@@ -3024,7 +3062,7 @@ namespace MapOperation
             //打开工作空间
             IFeatureWorkspace pFeaWorkspace = pWorkspaceFactory.OpenFromFile(pFilePath, 0) as IFeatureWorkspace;
             //打开文件
-            pFeatureClass = pFeaWorkspace.OpenFeatureClass(pFileName); 
+            pFeatureClass = pFeaWorkspace.OpenFeatureClass(pFileName);
             return pFeatureClass;
         }
 
@@ -3046,7 +3084,8 @@ namespace MapOperation
         /// </summary>
         /// <param name="pFeatureClass"></param>
         /// <returns></returns>
-        public double squareCalculate(ISelectionSet pFeatSet) {
+        public double squareCalculate(ISelectionSet pFeatSet)
+        {
             double square = 0.0;
             return square;
         }
@@ -4058,7 +4097,7 @@ namespace MapOperation
             mainMapControl.ActiveView.Refresh();
 
         }
-     
+
         private void 测试ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             //try{
@@ -4104,8 +4143,9 @@ namespace MapOperation
                 if (pfeature_save != null)
                 {
                     CenterPointCalculate(pfeature_save, out x, out y);
-                }       
-                else {//没查询到默认为0用中心代替
+                }
+                else
+                {//没查询到默认为0用中心代替
                     x = 0; y = 0;
                 }
 
@@ -4116,20 +4156,22 @@ namespace MapOperation
                     string path = null;
                     if (Convert.ToInt32(expert) == 0)
                     {
-                         path = @"D:\test_data\fixtrain20\0\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";
+                        path = @"D:\test_data\fixtrain20\0\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";
                     }
                     else
                         path = @"D:\test_data\fixtrain20\1\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";
                     //图像存储路径
-                    ImageDatesetProduce(sql, pFeatSet, pTocFeatureLayer, x, y, 1202, path,500,500,1);
+                    ImageDatesetProduce(sql, pFeatSet, pTocFeatureLayer, x, y, 1202, path, 500, 500, 1);
                     //ClipProduce(1000000, unionFeature,sql);             //如果只需要集合部分的裁剪就采用这一函数
+
+
                     unionFeature = pFeatureCursor.NextFeature();
                 }
                 else             //进行下一步
                     unionFeature = pFeatureCursor.NextFeature();
 
                 //添加进度条
-                progress.Addprogess(count,sp);
+                progress.Addprogess(count, sp);
 
                 sp++;
             }
@@ -4174,9 +4216,11 @@ namespace MapOperation
                 string osmid = null;
                 string topid = null;
                 string expert = null;
+                string isShift = null;
                 osmid = unionFeature.get_Value(3).ToString();
                 topid = unionFeature.get_Value(2).ToString();
                 expert = unionFeature.get_Value(5).ToString();
+                isShift = unionFeature.get_Value(11).ToString();
                 //定义查询指针
                 ISelectionSet pFeatSet = null;
                 string sql = null;
@@ -4201,9 +4245,20 @@ namespace MapOperation
                 if (sql != null)
                 {
                     // string path = @"D:\test_data\function_test\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";  //图像存储路径
-                    string path = @"E:\Naraku\maskwork\data\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";  //图像存储路径
-                    ImageDatesetProduce(sql, pFeatSet, pTocFeatureLayer, x, y, 1202, path, 500, 500, 0);
+                    // string path = @"E:\Naraku\maskwork\data\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";  //图像存储路径
+                    if (isShift == "1")
+                    {
+                        string path = @"E:\Naraku\experiment\work\isShifted\shifted\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";
+                        ImageDatesetProduce(sql, pFeatSet, pTocFeatureLayer, x, y, 1202, path, 500, 500, 0);
+                    }
+                    else
+                    {
+                        string path = @"E:\Naraku\experiment\work\isShifted\unshifted\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";
+                        ImageDatesetProduce(sql, pFeatSet, pTocFeatureLayer, x, y, 1202, path, 500, 500, 0);
+                    }
+
                     //ClipProduce(1000000, unionFeature,sql);             //如果只需要集合部分的裁剪就采用这一函数
+
                     unionFeature = pFeatureCursor.NextFeature();
                 }
                 else             //进行下一步
@@ -4219,7 +4274,7 @@ namespace MapOperation
             //if (MessageBox.Show("要保存吗？", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             //{
             //    bool isSave = true;
-            //    otherSave(isSave, @"D:\test_data\work1\work1");
+            //otherSave(isSave, @"D:\test_data\work1\work1");
             //}
             System.Runtime.InteropServices.Marshal.ReleaseComObject(pFeatureCursor);
             progress.Close();
@@ -4272,7 +4327,7 @@ namespace MapOperation
                     pEnvelope.Union(pFeature.Extent);
                     string isunion = null;
                     isunion = pFeature.get_Value(4).ToString();
-                    if (isunion == "1")
+                    if (isunion == "2"||isunion=="3")
                     {
                         string osmid = null;
                         string topid = null;
@@ -4305,7 +4360,7 @@ namespace MapOperation
                         {
                             // string path = @"D:\test_data\function_test\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";  //图像存储路径
                             string path = @"E:\Naraku\maskwork\data_code\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";  //图像存储路径
-                            ImageDatesetProduce(sql, pFeatSet, pTocFeatureLayer, x, y, 1202, path, 500, 500,2);
+                            ImageDatesetProduce(sql, pFeatSet, pTocFeatureLayer, x, y, 1202, path, 500, 500, 2);
                             //ClipProduce(1000000, unionFeature,sql);             //如果只需要集合部分的裁剪就采用这一函数
                             pFeature = enumFeature.Next();
                         }
@@ -4326,6 +4381,11 @@ namespace MapOperation
                 mainMapControl.ActiveView.Extent = pEnvelope;
                 mainMapControl.ActiveView.Refresh();
 
+                if (MessageBox.Show("要保存吗？", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                {
+                    bool isSave = true;
+                    otherSave(isSave, @"C:\Users\11853\Desktop\Screenshot\work");
+                }
                 progress.Close();
                 //ScreenShotForm shot = new ScreenShotForm();
                 //shot.Show();//以无模式窗体方式调用
@@ -4450,7 +4510,7 @@ namespace MapOperation
         /// <param name="picW">截图宽</param>
         ///<param name="savepath">截图存储路径</param>
         /// <param name="shotMethod">截图方式</param>
-        public void Para_Screenshot(string savepath, int cliprate , int picW,int picH ,int shotMethod)
+        public void Para_Screenshot(string savepath, int cliprate, int picW, int picH, int shotMethod)
         {
             //缩放至选择
             int nSlection = mainMapControl.Map.SelectionCount;
@@ -4481,17 +4541,19 @@ namespace MapOperation
                 int sp = 1;                                                 //处理步骤计数
                 ProgressForm progress = new ProgressForm();
                 progress.Show();
+                int feature_count = 0;
                 while (pFeature != null)
                 {
-
+                    Console.WriteLine(feature_count++);
                     pEnvelope.Union(pFeature.Extent);
                     string isunion = null;
                     isunion = pFeature.get_Value(4).ToString();
-                    if (isunion == "1")
+                    if (isunion!=null)
                     {
                         string osmid = null;
                         string topid = null;
                         string expert = null;
+                        string isdiff = null;
                         osmid = pFeature.get_Value(3).ToString();
                         topid = pFeature.get_Value(2).ToString();
                         expert = pFeature.get_Value(5).ToString();
@@ -4500,28 +4562,40 @@ namespace MapOperation
                         string sql = null;
                         //开始查询
                         //此查询原本基于layer ，后重写
-                        sql = MultiFeatureQuery(pFeature, ref pFeatSet, SelectLayer);    //生成查询到的要素集，返回sql查询语句
+                        sql = DiffFeatureQuery(pFeature, ref pFeatSet, SelectLayer);    //生成查询到的要素集，返回sql查询语句
+                        //if (isunion == "1")
+                        //{
+                        //    sql = DiffFeatureQuery(pFeature, ref pFeatSet, SelectLayer);    //生成查询到的要素集，返回sql查询语句
+                        //}                  
                         double x = 0, y = 0;//截图中心点坐标
-                        if(shotMethod!=1)
-                        { 
-                        IFeature pfeature_save = ClipProduce(cliprate, pFeature, sql);//对所有要素都采用裁剪，并生成裁剪要素
-
-                        //对offset区域进行中心点坐标的的计算
-                        if (pfeature_save != null)
+                        if (shotMethod != 1)
                         {
-                            CenterPointCalculate(pfeature_save, out x, out y);
-                        }
-                        else
-                        {//没查询到默认为0用中心代替
-                            x = 0; y = 0;
-                        }
+                            if (isunion == "2" || isunion == "3")
+                            {
+                                    IFeature pfeature_save = ClipProduce(cliprate, pFeature, sql);//对所有要素都采用裁剪，并生成裁剪要素
+
+                                    //对offset区域进行中心点坐标的的计算
+                                    if (pfeature_save != null)
+                                    {
+                                        Console.WriteLine("osmid"+osmid+ " topid" + topid);
+                                    Console.WriteLine("sql:"+sql);
+                                    CenterPointCalculate(pfeature_save, out x, out y);
+                                        isdiff = "1";
+                                    }
+                                    else
+                                    {//没查询到默认为0用中心代替
+                                        x = 0; y = 0;
+                                        isdiff ="0";
+                                    }
+                             }
+                          
                         }
 
                         //图像生成
-                        if (sql != null)
+                        if (sql != null&&isdiff=="1")
                         {
-                            // string path = @"D:\test_data\function_test\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";  //图像存储路径
-                            string path = savepath + @"\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";  //图像存储路径
+                            string path = savepath + @"\" + "diff" + isdiff + "topid" + topid + "osmid" + osmid + "featureid" + feature_count + ".jpg";  //图像存储路径
+                            //string path = savepath + @"\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";  //图像存储路径
                             ImageDatesetProduce(sql, pFeatSet, pTocFeatureLayer, x, y, 1202, path, picW, picH, shotMethod);
                             //ClipProduce(1000000, unionFeature,sql);             //如果只需要集合部分的裁剪就采用这一函数
                             pFeature = enumFeature.Next();
@@ -4540,7 +4614,11 @@ namespace MapOperation
                 pEnvelope.Expand(1.1, 1.1, true);
                 mainMapControl.ActiveView.Extent = pEnvelope;
                 mainMapControl.ActiveView.Refresh();
-
+                if (MessageBox.Show("要保存吗？", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                {
+                    bool isSave = true;
+                    otherSave(isSave, @"C:\Users\11853\Desktop\Screenshot\work");
+                }
                 progress.Close();
             }
 
@@ -4566,58 +4644,354 @@ namespace MapOperation
                 _frm.Activate();
                 _frm.WindowState = FormWindowState.Normal;
             }
-          
+
 
             //将生成截图的功能与参数选择功能分离
-           
+
+        }
+
+        private void 差异样本生成ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //废弃
+            ILayer pLayer = null;
+            pLayer = mainMapControl.get_Layer(0);
+            pTocFeatureLayer = pLayer as IFeatureLayer;
+            IActiveView pActiveView = mainMapControl.ActiveView;
+            //查询模块
+            IFeature pFeature = null;
+            IFeatureCursor pFeatureCursor = pTocFeatureLayer.Search(null, false);
+            //统计feature个数
+            string sql_count = "";
+            IQueryFilter pQueryFilter_count1 = new QueryFilterClass();
+            pQueryFilter_count1.WhereClause = sql_count;
+            int count = pTocFeatureLayer.FeatureClass.FeatureCount(pQueryFilter_count1);
+            IEnvelope pEnvelope = new EnvelopeClass();
+            pFeature = pFeatureCursor.NextFeature();                //设置指针
+
+            int sp = 1;                                                 //处理步骤计数
+            ProgressForm progress = new ProgressForm();
+            progress.Show();
+            int feature_count = 0;
+                while (pFeature != null)
+                {
+                    Console.WriteLine(feature_count++);
+                    //pEnvelope.Union(pFeature.Extent);
+                    string isunion = null;
+                pEnvelope.Union(pFeature.Extent);
+                isunion = pFeature.get_Value(4).ToString();
+                    if (isunion != null)
+                    {
+                        string osmid = null;
+                        string topid = null;
+                        string expert = null;
+                        string isdiff = null;
+                        osmid = pFeature.get_Value(3).ToString();
+                        topid = pFeature.get_Value(2).ToString();
+                        expert = pFeature.get_Value(5).ToString();
+                        //定义查询指针
+                        ISelectionSet pFeatSet = null;
+                        string sql = null;
+                        //开始查询
+                        //此查询原本基于layer ，后重写
+                        sql = DiffFeatureQuery(pFeature, ref pFeatSet, pTocFeatureLayer);    //生成查询到的要素集，返回sql查询语句
+                        //if (isunion == "1")
+                        //{
+                        //    sql = DiffFeatureQuery(pFeature, ref pFeatSet, SelectLayer);    //生成查询到的要素集，返回sql查询语句
+                        //}                  
+                        double x = 0, y = 0;//截图中心点坐标
+                        //if (shotMethod != 1)
+                        //{
+                    if (isunion == "2" || isunion == "3")
+                    {
+                        IFeature pfeature_save = ClipProduce(3, pFeature, sql);//对所有要素都采用裁剪，并生成裁剪要素
+
+                        //对offset区域进行中心点坐标的的计算
+                        if (pfeature_save != null)
+                        {
+                            Console.WriteLine("osmid" + osmid + " topid" + topid);
+                            Console.WriteLine("sql:" + sql);
+                            CenterPointCalculate(pfeature_save, out x, out y);
+                            isdiff = "1";
+                        }
+                        else
+                        {//没查询到默认为0用中心代替
+                            x = 0; y = 0;
+                            isdiff = "0";
+                        }
+                    }
+
+                        //}
+
+                        //图像生成
+                        if (sql != null && isdiff == "1")
+                        {
+                            string path = @"E:\Naraku\experiment\isdiffer\" + "diff" + isdiff + "topid" + topid + "osmid" + osmid + "featureid" + feature_count + ".jpg";  //图像存储路径
+                            //string path = savepath + @"\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";  //图像存储路径
+                            ImageDatesetProduce(sql, pFeatSet, pTocFeatureLayer, x, y, 1202, path,500,500, 2);
+                            //ClipProduce(1000000, unionFeature,sql);             //如果只需要集合部分的裁剪就采用这一函数
+                            pFeature = pFeatureCursor.NextFeature();
+                        }
+                        else             //进行下一步
+                            pFeature = pFeatureCursor.NextFeature();
+
+                    }
+                    else
+                        pFeature = pFeatureCursor.NextFeature();
+
+                //添加进度条
+                progress.Addprogess(count, sp);
+                    sp++;
+                }
+                pEnvelope.Expand(1.1, 1.1, true);
+                mainMapControl.ActiveView.Extent = pEnvelope;
+                mainMapControl.ActiveView.Refresh();
+                //if (MessageBox.Show("要保存吗？", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                //{
+                //    bool isSave = true;
+                //    otherSave(isSave, @"C:\Users\11853\Desktop\Screenshot\work");
+                //}
+                progress.Close();
+            
+               
+        }
+
+        public class LGToolStripItem : IItemDef
+        {
+            private string clsid_;
+            private bool group_;
+            private int subtype_;
+
+            public bool GetGroup
+            {
+                get { return group_; }
+            }
+            public string GetID
+            {
+                get { return clsid_; }
+            }
+
+            public int GetSubType
+            {
+                get { return subtype_; }
+            }
+
+            #region IItemDef 成员
+
+            bool IItemDef.Group
+            {
+                set { group_ = value; }
+            }
+
+
+            string IItemDef.ID
+            {
+                set { clsid_ = value; }
+            }
+
+
+            int IItemDef.SubType
+            {
+                set { subtype_ = value; }
+            }
+            #endregion
+        }
+
+        private void 差异样本生成ToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            ILayer pLayer = null;
+            pLayer = mainMapControl.get_Layer(0);
+            pTocFeatureLayer = pLayer as IFeatureLayer;
+            IActiveView pActiveView = mainMapControl.ActiveView;
+            //查询模块
+            IFeature pFeature = null;
+            IFeatureCursor pFeatureCursor = pTocFeatureLayer.Search(null, false);
+            //统计feature个数
+            string sql_count = "";
+            IQueryFilter pQueryFilter_count1 = new QueryFilterClass();
+            pQueryFilter_count1.WhereClause = sql_count;
+            int count = pTocFeatureLayer.FeatureClass.FeatureCount(pQueryFilter_count1);
+            IEnvelope pEnvelope = new EnvelopeClass();
+            pFeature = pFeatureCursor.NextFeature();                //设置指针
+
+            int sp = 1;                                                 //处理步骤计数
+            ProgressForm progress = new ProgressForm();
+            progress.Show();
+            int feature_count = 0;
+            while (pFeature != null)
+            {
+                //Console.WriteLine(feature_count++);
+                //pEnvelope.Union(pFeature.Extent);
+                string isunion = null;
+                pEnvelope.Union(pFeature.Extent);
+                isunion = pFeature.get_Value(4).ToString();
+                if (isunion != null)
+                {
+                    string osmid = null;
+                    string topid = null;
+                    string expert = null;
+                    string isdiff = null;
+                    osmid = pFeature.get_Value(3).ToString();
+                    topid = pFeature.get_Value(2).ToString();
+                    expert = pFeature.get_Value(5).ToString();
+                    if (expert == "0" || expert == "3" || expert == "4" || expert == "5" || expert == "6")
+                    {
+                        //定义查询指针
+                        ISelectionSet pFeatSet = null;
+                        string sql = null;
+                        //开始查询
+                        //此查询原本基于layer ，后重写
+                        sql = DiffFeatureQuery(pFeature, ref pFeatSet, pTocFeatureLayer);    //生成查询到的要素集，返回sql查询语句
+                    //if (isunion == "1")
+                    //{
+                    //    sql = DiffFeatureQuery(pFeature, ref pFeatSet, SelectLayer);    //生成查询到的要素集，返回sql查询语句
+                    //}                  
+                        double x = 0, y = 0;//截图中心点坐标
+                       
+
+                        //对offset区域进行中心点坐标的的计算
+                        if (isunion == "2" || isunion == "3")
+                        {
+                            //Console.WriteLine("osmid" + osmid + " topid" + topid);
+                            //Console.WriteLine("sql:" + sql);
+                            IFeature pfeature_save = ClipProduce(3, pFeature, sql);//对所有要素都采用裁剪，并生成裁剪要素
+                            if (pfeature_save != null)
+                            {
+                                //显著差异部分
+                                CenterPointCalculate(pfeature_save, out x, out y);
+                                isdiff = "1";
+                            }
+                            else
+                            {
+                                //没查询到的差异不显著部分用几何中心作为截图中心
+                                CenterPointCalculate(pFeature, out x, out y);
+                                isdiff = "0";
+                            }
+                            //图像生成
+                            if (sql != null && isdiff != "-1")//&& isdiff == "1")
+                            {
+                                string path = @"E:\Naraku\experiment\isdiffer\test2\" + "diff" + isdiff + "topid" + topid + "osmid" + osmid + "featureid" + feature_count + ".jpg";  //图像存储路径
+                                                                                                                                                                               //string path = savepath + @"\" + "ex" + expert + "topid" + topid + "osmid" + osmid + ".jpg";  //图像存储路径
+                                ImageDatesetProduce(sql, pFeatSet, pTocFeatureLayer, x, y, 1202, path, 500, 500, 2);
+                                //ClipProduce(1000000, unionFeature,sql);             //如果只需要集合部分的裁剪就采用这一函数
+                                pFeature = pFeatureCursor.NextFeature();
+                            }
+                            else             //进行下一步
+                                pFeature = pFeatureCursor.NextFeature();
+                        }
+                        
+
+                    }
+                    else
+                        pFeature = pFeatureCursor.NextFeature();
+
+                    //添加进度条
+                    progress.Addprogess(count, sp);
+                    sp++;
+                }
+            }
+            pEnvelope.Expand(1.1, 1.1, true);
+            mainMapControl.ActiveView.Extent = pEnvelope;
+            mainMapControl.ActiveView.Refresh();
+            //if (MessageBox.Show("要保存吗？", "", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            //{
+            //    bool isSave = true;
+            //    otherSave(isSave, @"C:\Users\11853\Desktop\Screenshot\work");
+            //}
+            progress.Close();
+
+
+        }
+
+        private void 属性表标注ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ILayer pLayer = null;
+            pLayer = mainMapControl.get_Layer(0);
+            pTocFeatureLayer = pLayer as IFeatureLayer;
+            IActiveView pActiveView = mainMapControl.ActiveView;
+            //查询模块
+            IFeature pFeature = null;
+            IFeatureCursor pFeatureCursor = pTocFeatureLayer.Search(null, false);
+            //统计feature个数
+            string sql_count = "";
+            IQueryFilter pQueryFilter_count1 = new QueryFilterClass();
+            pQueryFilter_count1.WhereClause = sql_count;
+            int count = pTocFeatureLayer.FeatureClass.FeatureCount(pQueryFilter_count1);
+            IEnvelope pEnvelope = new EnvelopeClass();
+            pFeature = pFeatureCursor.NextFeature();                //设置指针
+            int sp = 1;                                                 //处理步骤计数
+            ProgressForm progress = new ProgressForm();
+            progress.Show();
+            int feature_count = 0;
+            while (pFeature != null)
+            {
+                //Console.WriteLine(feature_count++);
+                //pEnvelope.Union(pFeature.Extent);
+                string isunion = null;
+                pEnvelope.Union(pFeature.Extent);
+                isunion = pFeature.get_Value(4).ToString();
+                if (isunion != null)
+                {
+                    string osmid = null;
+                    string topid = null;
+                    string expert = null;
+                    string isdiff = null;
+                    osmid = pFeature.get_Value(3).ToString();
+                    topid = pFeature.get_Value(2).ToString();
+                    expert = pFeature.get_Value(5).ToString();
+                    if (expert == "0" || expert == "3" || expert == "4" || expert == "5" || expert == "6")
+                    {
+                        //定义查询指针
+                        ISelectionSet pFeatSet = null;
+                        string sql = null;
+                        //开始查询
+                        //此查询原本基于layer ，后重写
+                        sql = DiffFeatureQuery(pFeature, ref pFeatSet, pTocFeatureLayer);    //生成查询到的要素集，返回sql查询语句               
+                        double x = 0, y = 0;//截图中心点坐标
+                        //对offset区域进行中心点坐标的的计算
+                        if (isunion == "2" || isunion == "3")
+                        {
+                            //Console.WriteLine("osmid" + osmid + " topid" + topid);
+                            //Console.WriteLine("sql:" + sql);
+                            IFeature pfeature_save = ClipProduce(3, pFeature, sql);//对所有要素都采用裁剪，并生成裁剪要素
+                            if (pfeature_save != null)
+                            {
+                                //显著差异部分
+                                CenterPointCalculate(pfeature_save, out x, out y);
+                                isdiff = "1";
+                            }
+                            else
+                            {
+                                //没查询到的差异不显著部分用几何中心作为截图中心
+                                CenterPointCalculate(pFeature, out x, out y);
+                                isdiff = "0";
+                            }
+                            //图像生成
+                            if (sql != null && isdiff != "-1")//&& isdiff == "1")
+                            {
+                                string path = @"E:\Naraku\experiment\isdiffer\test2\" + "diff" + isdiff + "topid" + topid + "osmid" + osmid + "featureid" + feature_count + ".jpg";  //图像存储路径
+                                ImageDatesetProduce(sql, pFeatSet, pTocFeatureLayer, x, y, 1202, path, 500, 500, 2);
+                                //ClipProduce(1000000, unionFeature,sql);             //如果只需要集合部分的裁剪就采用这一函数
+                                pFeature = pFeatureCursor.NextFeature();
+                            }
+                            else             //进行下一步
+                                pFeature = pFeatureCursor.NextFeature();
+                        }
+
+
+                    }
+                    else
+                        pFeature = pFeatureCursor.NextFeature();
+
+                    //添加进度条
+                    progress.Addprogess(count, sp);
+                    sp++;
+                }
+            }
+            pEnvelope.Expand(1.1, 1.1, true);
+            mainMapControl.ActiveView.Extent = pEnvelope;
+            mainMapControl.ActiveView.Refresh();
+            progress.Close();
+
         }
     }
-
-    public class LGToolStripItem : IItemDef
-    {
-        private string clsid_;
-        private bool group_;
-        private int subtype_;
-
-        public bool GetGroup
-        {
-            get { return group_; }
-        }
-        public string GetID
-        {
-            get { return clsid_; }
-        }
-
-        public int GetSubType
-        {
-            get { return subtype_; }
-        }
-
-        #region IItemDef 成员
-
-        bool IItemDef.Group
-        {
-            set { group_ = value; }
-        }
-
-
-        string IItemDef.ID
-        {
-            set { clsid_ = value; }
-        }
-
-
-        int IItemDef.SubType
-        {
-            set { subtype_ = value; }
-        }
-        #endregion
-    }
-
-
-
-
-
-
-
 }
